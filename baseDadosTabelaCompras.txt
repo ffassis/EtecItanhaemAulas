@@ -1,0 +1,168 @@
+create database controleDeGastos;
+
+use controleDeGastos;
+
+create table compras(
+valor decimal(18,2),
+dataCompra date,
+observacoes varchar(100),
+recebida tinyint);
+
+insert into compras values(2, '2023/03/29', 'Mercado', 0);
+
+select * from compras;
+
+alter table compras add column id int auto_increment primary key;
+
+select * from compras;
+
+drop table compras;
+
+create table compras(
+compras_id int auto_increment primary key,
+compras_valor decimal(10,2),
+compras_data date,
+compras_observacoes date,
+compras_valorRecebido tinyint
+);
+
+alter table compras alter column compras_observacoes varchar(100);
+
+insert into compras (compras_valor, compras_data, compras_observacoes, compras_valorRecebido) 
+values(235.25, '2023/02/22', 'Mercado', 1);
+
+
+drop table compras;
+
+create table compras(
+compras_id int auto_increment primary key,
+compras_valor decimal(10,2),
+compras_data date,
+compras_observacoes varchar(100),
+compras_valorRecebido tinyint
+);
+
+insert into compras (compras_valor, compras_data, compras_observacoes, compras_valorRecebido) 
+values(235.25, '2023/02/22', 'Mercado', 1),(25.25, '2023/02/22', 'SuperMercado', 1),(25.25, '2023/02/22', 'SuperMercado', 1);
+
+insert into compras (compras_valor, compras_data, compras_observacoes, compras_valorRecebido) 
+values(25.25, '2023/02/22', 'SuperMercado', 1);
+
+
+insert into compras (compras_valor, compras_data, compras_observacoes, compras_valorRecebido) values
+(20.00, '05/01/2016', 'Lanchonete', 1),
+(15.00, '06/01/2016', 'Lanchonete', 1),
+(915.50, '06/01/2016', 'Guarda roupa', 1),
+(949.99, '10/01/2016', 'Smartphone', 1),
+(200.00, '19/02/2012', 'Material Escolar', 1),
+(3500.00, '21/05/2012', 'Televisao', 0),
+(1576.40, '30/04/2012', 'Material', 0),
+(163.45, '15/12/2012', 'Pizza', 1),
+(4780.00, '23/01/2013', 'Sala', 1),
+(392.15, '03/03/2013', 'Quartos', 1),
+(1203.00, '18/03/2013', 'Quartos', 1),
+(402.90, '21/03/2013', 'Copa', 0),
+(54.98, '12/04/2013', 'Lanchonete', 1),
+(12.34, '23/05/2013', 'Lanchonete', 0),
+(78.65, '04/12/2013', 'Lanchonete', 0),
+(12.39, '06/01/2013', 'Sorvete', 1),
+(98.12, '09/07/2013', 'Hopi', 1),
+(2498.00, '12/01/2013', 'Compras', 1),
+(3212.40, '13/11/2013', 'Compras', 1),
+(223.09, '17/12/2013', 'Compras', 1),
+(768.90, '16/01/2013', 'Festa', 0),
+(827.50, '09/01/2014', 'Festa', 1),
+(12.00, '19/02/2014', 'Salgado aeroporto', 0),
+(678.43, '21/05/2014', 'Passagem', 1),
+(10937.12, '30/04/2014', 'Carnaval', 0),
+(1501.00, '22/06/2014', 'Presente', 1),
+(1709.00, '25/08/2014', 'Parcela', 1),
+(567.09, '25/09/2014', 'Parcela', 1),
+(631.53, '12/10/2014', 'IPTU', 1),
+(909.11, '11/02/2014', 'IPVA', 1),
+(768.18, '10/04/2014', 'Gasolina', 1),
+(434.00, '01/04/2014', 'Rodeio', 0),
+(115.90, '12/06/2014', 'Dia', 1),
+(98.00, '12/10/2014', 'Dia', 1),
+(253.70, '20/12/2014', 'Natal', 1),
+(370.15, '25/12/2014', 'Compras', 1),
+(32.09, '02/07/2015', 'Lanchonete', 1),
+(954.12, '03/11/2015', 'Show', 1),
+(98.70, '07/02/2015', 'Lanchonete', 1),
+(213.50, '25/09/2015', 'Roupas', 1),
+(1245.20, '17/10/2015', 'Roupas', 1),
+(23.78, '18/12/2015', 'Lanchonete', 1),
+(576.12, '13/09/2015', 'Sapatos', 1),
+(12.34, '19/07/2015', 'Canetas', 0),
+(87.43, '10/05/2015', 'Gravata', 0),
+(887.66, '02/02/2015', 'Presente', 0);
+
+
+select * from compras;
+
+
+A nossa consulta devolveu todas as nossas compras, mas eu quero saber a data de todas as compras
+"baratas" ou no caso, com valor abaixo de 500. Em SQL podemos adicionar filtros com o argumento
+WHERE :
+mysql> SELECT * FROM compras WHERE valor < 500;
+
+
+Verificamos as compras mais baratas, mas e para verificar as compras mais caras? Por exemplo, com
+valor acima de 1500? Usamos o WHERE novamente indicando que agora queremos valores acima de
+1500:
+mysql> SELECT * FROM compras WHERE valor > 1500;
+
+
+Sabemos todas as compras mais caras, porém eu só quero saber todas compras mais caras e que não
+foram entregues ao mesmo tempo. Para isso precisamos adicionar mais um filtro, ou seja, filtrar por
+compras acima de 1500 e também que não foram entregues:
+mysql> SELECT * FROM compras WHERE valor > 1500 AND recebida = 0;
+
+
+Agora que podemos utilizar mais de um filtro vamos verificar todas as compras mais baratas (abaixo
+de 500) e mais caras (acima de 1500):
+mysql> SELECT * FROM compras WHERE valor < 500 AND valor > 1500;
+Empty set (0,00 sec)
+Parece que não funcionou adicionar mais de um filtro para a mesma coluna... Vamos analisar um
+pouco a nossa query, será que realmente está fazendo sentido esse nosso filtro? Observe que estamos
+tentando pegar compras que tenham o valor abaixo de 500 e ao mesmo tempo tenha um valor acima de
+1500. Se o valor for 300 é abaixo de 500, porém não é acima de 1500, se o valor for 1800 é acima de
+1500, porém não é abaixo de 500, ou seja, é impossível que esse filtro seja válido. Podemos fazer um
+pequeno ajuste nesse filtro, podemos indicar que queremos valores que sejam menores que 500 ou
+maiores que 1500:
+mysql> SELECT * FROM compras WHERE valor < 500 OR valor > 1500;
+
+
+Perceba que agora temos todas as compras que possuem valores abaixo de 500 e acima de 1500.
+Suponhamos que fizemos uma compra com um valor específico, por exemplo 3500, e queremos saber
+apenas as compras que tiveram esse valor. O filtro que queremos utilizar é o igual ao valor desejado:
+mysql> SELECT * FROM compras WHERE valor = 3500;
+
+
+Conseguimos realizar várias queries com muitos filtros, porém, eu quero saber dentre as compras
+realizadas, quais foram em Lanchonete. Então vamos verificar todas as observações que sejam iguais a
+Lanchonete:
+mysql> SELECT * FROM compras WHERE observacoes = 'Lanchonete';
+
+
+Agora preciso saber todas as minhas compras que foram Parcelas. Então novamente eu usarei o
+mesmo filtro, porém para Parcelas:
+mysql> SELECT * FROM compras WHERE observacoes = 'Parcelas';
+Empty set (0,00 sec)
+Que estranho eu lembro de ter algum registro de parcela... Sim, existem registros de parcelas, porém
+não existe apenas uma observação "Parcela" e sim "Parcela do carro" ou "Parcela da casa", ou seja,
+precisamos filtrar as observações verificando se existe um pedaço do texto que queremos na coluna
+desejada. Para verificar um pedaço do texto utilizamos o argumento LIKE :
+mysql> SELECT * FROM compras WHERE observacoes LIKE 'Parcela%';
+
+
+Perceba que utilizamos o "%". Quando adicionamos o "%" durante um filtro utilizando o LIKE
+significa que queremos todos os registros que iniciem com Parcela e que tenha qualquer tipo de
+informação a direita, ou seja, se a observação for "Parcela da casa" ou "Parcela de qualquer coisa" ele
+retornará para nós, mas suponhamos que quiséssemos saber todas as compras com observações em que
+o "de" estivesse no meio do texto? Bastaria adicionar o "%" tanto no início quanto no final:
+mysql> SELECT * FROM compras WHERE observacoes LIKE '%de%';
+
+
+
+
